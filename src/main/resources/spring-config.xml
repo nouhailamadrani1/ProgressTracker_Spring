@@ -1,18 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <!-- Configuration des beans Utilisateur et Objectif -->
-    <bean id="utilisateurSingleton" class="com.geneiryodan.progresstracker.model.Utilisateur" scope="singleton" />
-    <bean id="utilisateurPrototype" class="com.geneiryodan.progresstracker.model.Utilisateur" scope="prototype" />
-    <bean id="objectifSingleton" class="com.geneiryodan.progresstracker.model.Objectif" scope="singleton" />
-    <bean id="objectifPrototype" class="com.geneiryodan.progresstracker.model.Objectif" scope="prototype" />
+    <bean id="utilisateurSingleton" class="com.geneiryodan.progresstracker.model.Utilisateur" scope="singleton" >
+        <constructor-arg index="0" value=""/>
+        <constructor-arg index="1" value=""/>
+    </bean>
+    <bean id="utilisateurPrototype" class="com.geneiryodan.progresstracker.model.Utilisateur" scope="prototype" >
+        <constructor-arg index="0" value=""/>
+        <constructor-arg index="1" value=""/>
+    </bean>
+    <bean id="objectifSingleton" class="com.geneiryodan.progresstracker.model.Objectif" scope="singleton" >
+        <constructor-arg index="0" value=""/>
+        <constructor-arg index="1" value=""/>
+        <constructor-arg index="2" ref=""/>
+    </bean>
+    <bean id="objectifPrototype" class="com.geneiryodan.progresstracker.model.Objectif" scope="prototype" >
+        <constructor-arg index="0" value=""/>
+        <constructor-arg index="1" value=""/>
+        <constructor-arg index="2" ref=""/>
+    </bean>
 
     <!-- Configuration du bean ServiceProgressTracker avec injection de dépendances -->
     <bean id="serviceProgressTracker" class="com.geneiryodan.progresstracker.service.ServiceProgressTracker">
         <constructor-arg ref="utilisateurSingleton" />
         <constructor-arg ref="objectifSingleton" />
     </bean>
+    <!-- Data source configuration for MySQL -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/progresstracker" /> <!-- Modify the URL to match your MySQL database -->
+        <property name="username" value="root" /> <!-- Modify the username as needed -->
+        <property name="password" value="" /> <!-- Modify the password as needed -->
+    </bean>
+
+    <!-- Configure JPA -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan" value="com.geneiryodan.progresstracker.model" />
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true" />
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Transaction Manager -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <!-- Enable Spring Data JPA repositories -->
+    <jpa:repositories base-package="com.geneiryodan.progresstracker.Repository" />
+
 
 </beans>
+
+
