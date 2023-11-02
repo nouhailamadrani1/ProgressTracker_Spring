@@ -8,10 +8,17 @@ public class Objectif {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    private boolean Done;
+    private boolean Done=false;
     @ManyToOne
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
+
+    public Objectif( String description, boolean done, Utilisateur utilisateur) {
+
+        this.description = description;
+        Done = done;
+        this.utilisateur = utilisateur;
+    }
 
     public Long getId() {
         return id;
@@ -38,6 +45,7 @@ public class Objectif {
     }
 
     public boolean isDone() {
+        this.Done =true;
         return Done;
     }
 

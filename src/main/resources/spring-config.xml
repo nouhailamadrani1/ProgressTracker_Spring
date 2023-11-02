@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Configuration des beans Utilisateur et Objectif -->
+    <bean id="utilisateurSingleton" class="com.geneiryodan.progresstracker.model.Utilisateur" scope="singleton" />
+    <bean id="utilisateurPrototype" class="com.geneiryodan.progresstracker.model.Utilisateur" scope="prototype" />
+    <bean id="objectifSingleton" class="com.geneiryodan.progresstracker.model.Objectif" scope="singleton" />
+    <bean id="objectifPrototype" class="com.geneiryodan.progresstracker.model.Objectif" scope="prototype" />
+
+    <!-- Configuration du bean ServiceProgressTracker avec injection de dépendances -->
+    <bean id="serviceProgressTracker" class="com.geneiryodan.progresstracker.service.ServiceProgressTracker">
+        <constructor-arg ref="utilisateurSingleton" />
+        <constructor-arg ref="objectifSingleton" />
+    </bean>
+
+</beans>

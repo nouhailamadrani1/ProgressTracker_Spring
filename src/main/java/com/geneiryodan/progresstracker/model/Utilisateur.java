@@ -13,6 +13,12 @@ public class Utilisateur {
     private String name;
     private String avatar;
 
+    public Utilisateur(String name, String avatar) {
+
+        this.name = name;
+        this.avatar = avatar;
+    }
+
     public Long getId() {
         return id;
     }
@@ -36,4 +42,5 @@ public class Utilisateur {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
 }
