@@ -1,32 +1,31 @@
 package com.geneiryodan.progresstracker.service;
 
+import com.geneiryodan.progresstracker.Repository.ObjectifRepository;
+import com.geneiryodan.progresstracker.Repository.UtilisateurRepository;
 import com.geneiryodan.progresstracker.model.Objectif;
 import com.geneiryodan.progresstracker.model.Utilisateur;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.EntityNotFoundException;
 
 public class ServiceProgressTracker {
-    private Utilisateur utilisateur;
-    private Objectif objectif;
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
 
-    public ServiceProgressTracker(Utilisateur utilisateur, Objectif objectif) {
-        this.utilisateur = utilisateur;
-        this.objectif = objectif;
+    @Autowired
+    private ObjectifRepository objectifRepository;
+
+    public Utilisateur addUser(String name, String avatar) {
+        Utilisateur utilisateur = new Utilisateur(name, avatar);
+        return utilisateurRepository.save(utilisateur);
     }
 
-    public void attribuerObjectif(String nouvelDescription ,Utilisateur utilisateurEnlinge) {
+    public Objectif addObjectif(String description, boolean done, Long userId) {
+        Utilisateur utilisateur = utilisateurRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
-        if(utilisateur.equals(utilisateurEnlinge)){
-            this.objectif.setDescription(nouvelDescription);
-        }
-
+        Objectif objectif = new Objectif(description, done, utilisateur);
+        return objectifRepository.save(objectif);
     }
-
-    public void mettreAjourProgression(boolean done) {
-     if(done = true){
-         objectif.isDone();
-
-     }
-
-    }
-
 
 }

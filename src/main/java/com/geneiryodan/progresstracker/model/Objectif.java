@@ -16,8 +16,12 @@ public class Objectif {
     public Objectif( String description, boolean done, Utilisateur utilisateur) {
 
         this.description = description;
-        Done = done;
+          Done = done;
         this.utilisateur = utilisateur;
+    }
+
+    public Objectif() {
+
     }
 
     public Long getId() {

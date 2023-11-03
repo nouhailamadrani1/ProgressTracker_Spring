@@ -14,13 +14,13 @@
     </bean>
     <bean id="objectifSingleton" class="com.geneiryodan.progresstracker.model.Objectif" scope="singleton" >
         <constructor-arg index="0" value=""/>
-        <constructor-arg index="1" value=""/>
-        <constructor-arg index="2" ref=""/>
+        <constructor-arg index="1" value="false"/>
+        <constructor-arg index="2" ref="utilisateurSingleton"/>
     </bean>
     <bean id="objectifPrototype" class="com.geneiryodan.progresstracker.model.Objectif" scope="prototype" >
         <constructor-arg index="0" value=""/>
-        <constructor-arg index="1" value=""/>
-        <constructor-arg index="2" ref=""/>
+        <constructor-arg index="1" value="false"/>
+        <constructor-arg index="2" ref="utilisateurPrototype"/>
     </bean>
 
     <!-- Configuration du bean ServiceProgressTracker avec injection de dépendances -->
@@ -31,9 +31,9 @@
     <!-- Data source configuration for MySQL -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/progresstracker" /> <!-- Modify the URL to match your MySQL database -->
-        <property name="username" value="root" /> <!-- Modify the username as needed -->
-        <property name="password" value="" /> <!-- Modify the password as needed -->
+        <property name="url" value="jdbc:mysql://localhost:8080/progresstracker" />
+        <property name="username" value="root" />
+        <property name="password" value="" />
     </bean>
 
     <!-- Configure JPA -->
